@@ -22,7 +22,7 @@ const ELEMENT_POINTS_RULES = [
   },
   {
     target: ["feature"],
-    allow: ["index.(ts|tsx)"],
+    allow: ["index.(ts|tsx)", "*.page.tsx"],
   },
 ];
 

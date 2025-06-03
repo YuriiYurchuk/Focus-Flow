@@ -1,9 +1,17 @@
-const App: React.FC = () => {
+import { Outlet } from "react-router-dom";
+import { Header } from "@/features/header";
+import { Suspense } from "react";
+import { Loader } from "@/features/loader";
+
+export const AppLayout: React.FC = () => {
   return (
     <div>
-      <h1>Welcome to React App</h1>
+      <Header />
+      <main>
+        <Suspense fallback={<Loader />}>
+          <Outlet />
+        </Suspense>
+      </main>
     </div>
   );
 };
-
-export default App;
