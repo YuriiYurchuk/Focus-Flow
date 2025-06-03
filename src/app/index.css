@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  html,
+  body {
+    @apply min-h-screen;
+  }
+
+  body {
+    @apply flex flex-col;
+    background: linear-gradient(to bottom right, #eff6ff, #eef2ff, #f5f3ff);
+
+    @variant dark {
+      background: linear-gradient(to bottom right, #111827, #1f2937, #111827);
+    }
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+}

@@ -1,0 +1,15 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <rect width="64" height="64" fill="#4F46E5" rx="12" ry="12" />
+  <text
+    x="32"
+    y="38"
+    font-family="Montserrat, Arial, sans-serif"
+    font-size="32"
+    fill="#fff"
+    font-weight="bold"
+    text-anchor="middle"
+    dominant-baseline="middle"
+  >
+    FF
+  </text>
+</svg>

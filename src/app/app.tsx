@@ -7,7 +7,7 @@ export const AppLayout: React.FC = () => {
   return (
     <div>
       <Header />
-      <main>
+      <main className="flex-1 container mx-auto px-4 py-6 pb-20">
         <Suspense fallback={<Loader />}>
           <Outlet />
         </Suspense>
