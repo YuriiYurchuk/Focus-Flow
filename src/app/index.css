@@ -3,18 +3,18 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
-  html,
-  body {
+  html {
     @apply min-h-screen;
-  }
-
-  body {
-    @apply flex flex-col;
     background: linear-gradient(to bottom right, #eff6ff, #eef2ff, #f5f3ff);
 
     @variant dark {
       background: linear-gradient(to bottom right, #111827, #1f2937, #111827);
     }
+  }
+
+  body {
+    @apply flex flex-col;
+    background: transparent;
   }
 
   input[type="number"]::-webkit-inner-spin-button,
