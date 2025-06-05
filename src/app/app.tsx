@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { Header } from "@/features/header";
 import { Suspense } from "react";
+import { Toaster } from "@/features/toaster";
 import { Loader } from "@/features/loader";
 
 export const AppLayout: React.FC = () => {
@@ -12,6 +13,7 @@ export const AppLayout: React.FC = () => {
           <Outlet />
         </Suspense>
       </main>
+      <Toaster />
     </div>
   );
 };
