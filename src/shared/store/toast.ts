@@ -8,9 +8,14 @@ interface IToast {
   type: ToastType;
 }
 
+interface IShowToastProps {
+  message: string;
+  type: ToastType;
+}
+
 interface IToastState {
   toasts: IToast[];
-  showToast: (message: string, type: ToastType) => void;
+  showToast: (toast: IShowToastProps) => void;
   removeToast: (id: number) => void;
 }
 
@@ -18,7 +23,7 @@ let idCounter = 0;
 
 export const useToastStore = create<IToastState>((set) => ({
   toasts: [],
-  showToast: (message, type) => {
+  showToast: ({ message, type }) => {
     const id = idCounter++;
     set((state) => ({
       toasts: [...state.toasts, { id, message, type }],

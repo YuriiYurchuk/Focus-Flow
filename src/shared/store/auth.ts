@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 interface IUser {
   uid: string;
-  email: string | null;
+  email: string;
 }
 
 interface IAuthState {
