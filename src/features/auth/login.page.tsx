@@ -48,6 +48,15 @@ const LoginForm: React.FC<IFormProps> = ({ setUser }) => {
         email,
         password
       );
+      if (!userCredential.user.emailVerified) {
+        showToast({
+          message:
+            "Будь ласка, підтвердіть вашу електронну пошту перед входом.",
+          type: "error",
+        });
+        setIsSubmitting(false);
+        return;
+      }
       setUser({
         uid: userCredential.user.uid,
         email: userCredential.user.email ?? "",

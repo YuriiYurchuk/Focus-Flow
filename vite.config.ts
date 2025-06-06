@@ -6,7 +6,4 @@ import svgr from "vite-plugin-svgr";
 
 export default defineConfig({
   plugins: [react(), tsconfigPaths(), tailwindcss(), svgr()],
-  server: {
-    host: true,
-  }
 });

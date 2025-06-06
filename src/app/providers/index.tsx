@@ -17,8 +17,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const unsubscribe = onAuthStateChanged(
       auth,
       (user: FirebaseUser | null) => {
-        if (user) {
-          setUser({ uid: user.uid, email: user.email });
+        if (user?.emailVerified) {
+          setUser({ uid: user.uid, email: user.email ?? "" });
         } else {
           setUser(null);
         }

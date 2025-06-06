@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 import { auth, db } from "@/shared/lib/firebase";
 import { doc, setDoc, serverTimestamp, Timestamp } from "firebase/firestore";
 import { UserPlus, Mail, Lock, User } from "lucide-react";
@@ -52,6 +55,7 @@ const RegisterForm: React.FC = () => {
         email,
         password
       );
+      await sendEmailVerification(userCredential.user);
       const uid = userCredential.user.uid;
       const user: IUser = {
         uid,
