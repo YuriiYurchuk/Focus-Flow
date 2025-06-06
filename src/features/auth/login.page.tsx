@@ -13,8 +13,11 @@ import {
   handleValidationErrors,
   validateField,
 } from "@/shared/lib/helpers/validationHelpers";
-import type { IFormProps } from "@/features/auth/types";
 import { ROUTES } from "@/shared/model/routes";
+
+interface IFormProps {
+  setUser: (user: { uid: string; email: string }) => void;
+}
 
 const LoginForm: React.FC<IFormProps> = ({ setUser }) => {
   const [email, setEmail] = useState("");
@@ -87,7 +90,7 @@ const LoginForm: React.FC<IFormProps> = ({ setUser }) => {
   };
 
   return (
-    <form onSubmit={handleLogin} className="space-y-6">
+    <form onSubmit={handleLogin} className="space-y-6" noValidate>
       <Input
         type="email"
         placeholder="Введіть електронну пошту"
@@ -142,7 +145,7 @@ const LoginPage = () => {
     <div className="p-4 flex items-center justify-center">
       <div className="w-full max-w-lg">
         <AuthHeader
-          title="Вхід до системи"
+          title="Вхід у ваш акаунт"
           description="Будь ласка, увійдіть, щоб продовжити"
           icon="login"
         />

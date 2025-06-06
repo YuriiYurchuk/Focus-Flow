@@ -40,7 +40,11 @@ export const AuthHeader: React.FC<IAuthHeaderProps> = ({
 
   return (
     <div className="text-center mb-8">
-      <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl mb-4 shadow-lg transform transition-all duration-500 hover:scale-110 hover:rotate-3 animate-pulse">
+      <div
+        className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500
+      to-purple-600 rounded-2xl mb-4 shadow-lg transform transition-all duration-500 hover:scale-110 
+      hover:rotate-3 animate-pulse"
+      >
         <IconComponent className="w-8 h-8 text-white transition-transform duration-300" />
       </div>
       <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
