@@ -1,6 +1,7 @@
 import Logo from "@/assets/logo.svg?react";
 import { Sun, Moon } from "lucide-react";
 import { useDarkTheme } from "@/shared/hooks/useDarkTheme";
+import { DesktopNav } from "@/features/nav";
 
 export const Header: React.FC = () => {
   const { theme, toggleTheme } = useDarkTheme();
@@ -22,14 +23,15 @@ export const Header: React.FC = () => {
             </p>
           </div>
         </div>
+        <DesktopNav />
         <div className="flex items-center space-x-4">
           <button
             onClick={toggleTheme}
             aria-label="Перемкнути тему"
             className="relative flex items-center p-1.5 rounded-2xl bg-gradient-to-r from-gray-50 to-gray-100
-            dark:from-gray-800 dark:to-gray-700 border border-gray-200/60 dark:border-gray-600/60 
-            transition-all duration-500 hover:shadow-xl hover:shadow-blue-500/10 dark:hover:shadow-purple-500/10 
-            hover:scale-105 active:scale-95 group"
+              dark:from-gray-800 dark:to-gray-700 border border-gray-200/60 dark:border-gray-600/60 
+              transition-all duration-500 hover:shadow-xl hover:shadow-blue-500/10 dark:hover:shadow-purple-500/10 
+              hover:scale-105 active:scale-95 group"
             role="switch"
             aria-checked={isDark}
             title="Перемкнути тему"
