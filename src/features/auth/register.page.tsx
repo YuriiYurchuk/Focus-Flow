@@ -172,7 +172,7 @@ const RegisterForm: React.FC = () => {
 
 const RegisterPage = () => {
   return (
-    <div className="p-4 flex items-center justify-center">
+    <div className="flex items-center justify-center">
       <div className="w-full max-w-lg">
         <AuthHeader
           title="Реєстрація"

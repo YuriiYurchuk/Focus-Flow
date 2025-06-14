@@ -108,6 +108,7 @@ export const useTaskTimer = (task: ITask | null) => {
         status: "in-progress",
         timeStart: task.timeStart ?? now,
         sessions: newSessions,
+        duration: task.duration ?? 0,
       });
 
       safeSetState(() => {

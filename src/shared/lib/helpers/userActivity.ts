@@ -1,12 +1,25 @@
-import { increment, doc, Timestamp, updateDoc } from "firebase/firestore";
+import {
+  increment,
+  doc,
+  Timestamp,
+  updateDoc,
+  getDoc,
+} from "firebase/firestore";
 import { differenceInCalendarDays, isSameDay } from "date-fns";
 import { db } from "@/shared/lib/firebase";
-import type { IUser } from "@/entities/user/types";
 
-export const uidToUserActivity = async (user: IUser) => {
-  const userRef = doc(db, `users/${user.uid}`);
+export const uidToUserActivity = async (uid: string) => {
+  const userRef = doc(db, `users/${uid}`);
+  const userSnap = await getDoc(userRef);
+
+  if (!userSnap.exists()) return;
+
+  const userData = userSnap.data();
   const now = new Date();
-  const lastActiveAt = user.lastActiveAt.toDate();
+
+  if (!userData.lastActiveAt?.toDate) return;
+
+  const lastActiveAt = userData.lastActiveAt.toDate();
 
   if (isSameDay(now, lastActiveAt)) {
     return;
