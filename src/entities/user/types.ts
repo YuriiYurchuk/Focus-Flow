@@ -6,4 +6,6 @@ export interface IUser {
   email: string;
   createdAt: Timestamp;
   streak: number;
+  lastActiveAt: Timestamp;
+  completedTasksCount: number;
 }

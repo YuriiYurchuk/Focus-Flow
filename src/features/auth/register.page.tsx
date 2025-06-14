@@ -62,7 +62,9 @@ const RegisterForm: React.FC = () => {
         fullName,
         email,
         createdAt: serverTimestamp() as Timestamp,
-        streak: 0,
+        streak: 1,
+        lastActiveAt: Timestamp.fromDate(new Date()),
+        completedTasksCount: 0,
       };
       await setDoc(doc(db, "users", uid), user);
       showToast({ message: "Реєстрація успішна!", type: "success" });
