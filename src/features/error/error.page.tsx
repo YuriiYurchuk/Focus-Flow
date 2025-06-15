@@ -34,7 +34,7 @@ const ErrorPage: React.FC = () => {
   const message = getMessageByStatus(statusCode);
 
   return (
-    <div className="min-h-screen p-4 flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen p-4 flex items-center justify-center">
       <div className="w-full max-w-lg">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full mb-4">
@@ -46,7 +46,7 @@ const ErrorPage: React.FC = () => {
           <p className="text-gray-600 dark:text-gray-400">{message}</p>
         </div>
         <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden">
-          <div className="p-8 space-y-6">
+          <div className="p-4 space-y-6">
             <div className="text-center space-y-4">
               <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/50 rounded-2xl p-6">
                 <h3 className="text-lg font-semibold text-red-800 dark:text-red-300 mb-2">

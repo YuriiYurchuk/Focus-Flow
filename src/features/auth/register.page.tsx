@@ -180,7 +180,7 @@ const RegisterPage = () => {
           icon="register"
         />
         <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden">
-          <div className="p-8 space-y-6">
+          <div className="p-6 sm:p-8 space-y-6">
             <RegisterForm />
             <LinkText
               spanText="Вже маєте акаунт?"
