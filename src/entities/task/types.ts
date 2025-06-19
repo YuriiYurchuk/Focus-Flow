@@ -7,6 +7,11 @@ export type ITaskStatus =
   | "completed";
 export type ITaskPriority = "low" | "medium" | "high";
 
+export interface ISession {
+  start: Timestamp;
+  end?: Timestamp;
+}
+
 export type ITask = {
   id: string;
   title: string;
@@ -18,6 +23,11 @@ export type ITask = {
   deadline?: Timestamp;
   timeStart?: Timestamp;
   timeEnd?: Timestamp;
-  sessions?: { start: Timestamp; end?: Timestamp }[];
+  sessions?: ISession[];
   duration?: number;
+};
+
+export type ILoadingState = {
+  starting: boolean;
+  pausing: boolean;
 };

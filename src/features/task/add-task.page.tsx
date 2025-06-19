@@ -140,10 +140,10 @@ export const FormTask: React.FC = () => {
         icon={<Flag size={16} />}
       />
       <Input
+        name="deadline"
         placeholder="Оберіть дедлайн"
         value={deadline}
         icon={<Calendar size={16} />}
-        name="deadline"
         label="Дедлайн (необов'язково)"
         onChange={(e) => setDeadline(e.target.value)}
         error={fieldErrors.deadline}

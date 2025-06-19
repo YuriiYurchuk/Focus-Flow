@@ -70,7 +70,6 @@ export const Select: React.FC<ISelectProps> = ({
   const selectRef = useRef<HTMLDivElement>(null);
   const listboxRef = useRef<HTMLDivElement>(null);
 
-  const selectId = `select-${name}`;
   const listboxId = `listbox-${name}`;
   const colorConfig = colorClasses[color];
   const selectedOption = options.find((option) => option.value === value);
@@ -150,10 +149,7 @@ export const Select: React.FC<ISelectProps> = ({
   return (
     <div className={`space-y-2 ${className}`} ref={selectRef}>
       {label && (
-        <label
-          htmlFor={selectId}
-          className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300"
-        >
+        <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
           {icon && (
             <span className={`w-4 h-4 ${colorConfig.icon}`}>{icon}</span>
           )}
@@ -162,7 +158,6 @@ export const Select: React.FC<ISelectProps> = ({
       )}
       <div className="relative">
         <div
-          id={selectId}
           className={`
             w-full px-4 py-4 pr-12 rounded-2xl border-2 cursor-pointer
             bg-gray-50 dark:bg-gray-700/50 backdrop-blur-sm
@@ -210,7 +205,6 @@ export const Select: React.FC<ISelectProps> = ({
             }
           `}
           role="listbox"
-          aria-labelledby={selectId}
         >
           <div className="overflow-y-auto max-h-60">
             {options.length > 0 ? (

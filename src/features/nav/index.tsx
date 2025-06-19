@@ -104,7 +104,7 @@ export const MobileNav: React.FC = () => {
   if (isAuthPage) return null;
 
   return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 md:hidden z-50">
+    <div className="fixed bottom-4 left-1/2 -translate-x-1/2 md:hidden z-50">
       <nav
         className="relative flex items-center justify-around px-4 py-3 gap-1
           bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl
