@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { Card } from "@/features/card"; // твоя картка
-import type { ITask } from "@/entities/task/types";
+import { Card } from "@/features/card";
+import type { Task } from "@/entities/task/types";
 import {
   collection,
   onSnapshot,
@@ -12,28 +12,27 @@ import { db } from "@/shared/lib/firebase";
 import { useAuthStore } from "@/shared/store/auth";
 
 const TaskListWithTimer = () => {
-  const [tasks, setTasks] = useState<ITask[]>([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
   const user = useAuthStore((state) => state.user);
   const uid = user?.uid;
 
   if (!uid) return;
 
+  console.log("tasks", tasks);
+
   useEffect(() => {
     const tasksCol = collection(db, "users", uid, "tasks");
     const unsubscribe = onSnapshot(tasksCol, (snapshot) => {
-      const tasksData: ITask[] = snapshot.docs.map((doc) => ({
+      const tasksData: Task[] = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
-      })) as ITask[];
+      })) as Task[];
       setTasks(tasksData);
     });
     return () => unsubscribe();
   }, []);
 
-  const handleStatusChange = async (
-    taskId: string,
-    status: ITask["status"]
-  ) => {
+  const handleStatusChange = async (taskId: string, status: Task["status"]) => {
     try {
       await updateDoc(doc(db, "users", uid, "tasks", taskId), { status });
     } catch (error) {

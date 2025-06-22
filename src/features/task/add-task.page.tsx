@@ -16,12 +16,12 @@ import { Select } from "@/features/ui/select";
 import { useToastStore } from "@/shared/store/toast";
 import { useAuthStore } from "@/shared/store/auth";
 import { uidToUserActivity } from "@/shared/lib/helpers/userActivity";
-import type { ITask, ITaskPriority } from "@/entities/task/types";
+import type { Task, TaskPriority } from "@/entities/task/types";
 
 export const FormTask: React.FC = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [priority, setPriority] = useState<ITaskPriority>("medium");
+  const [priority, setPriority] = useState<TaskPriority>("medium");
   const [deadline, setDeadline] = useState<string>("");
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -51,7 +51,7 @@ export const FormTask: React.FC = () => {
 
     try {
       const taskRef = doc(collection(db, `users/${uid}/tasks`));
-      const newTask: ITask = {
+      const newTask: Task = {
         id: taskRef.id,
         title,
         status: "not-started",
@@ -123,7 +123,7 @@ export const FormTask: React.FC = () => {
         value={priority}
         options={priorityOptions}
         onChange={(val) => {
-          setPriority(val as ITaskPriority);
+          setPriority(val as TaskPriority);
           setFieldErrors((prev) => ({ ...prev, priority: "" }));
         }}
         onBlur={() => {

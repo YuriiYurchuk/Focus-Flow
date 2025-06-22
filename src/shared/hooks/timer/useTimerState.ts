@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
-import { calculateCurrentElapsed } from "@/shared/lib/utils/taskTimerUtils";
+import { calculateCurrentElapsed } from "@/shared/lib/utils/taskTimer";
 import { TIMER_CONSTANTS } from "@/shared/model/timer";
-import type { ILoadingState } from "@/entities/task/types";
+import type { LoadingState } from "@/entities/task/types";
 
 export const useTimerState = (
   isActive: boolean,
@@ -10,7 +10,7 @@ export const useTimerState = (
   initialDuration?: number
 ) => {
   const [elapsed, setElapsed] = useState(0);
-  const [loading, setLoading] = useState<ILoadingState>({
+  const [loading, setLoading] = useState<LoadingState>({
     starting: false,
     pausing: false,
   });
@@ -29,7 +29,7 @@ export const useTimerState = (
   const clearError = useCallback(() => setError(null), []);
 
   const setLoadingState = useCallback(
-    (type: keyof ILoadingState, value: boolean) => {
+    (type: keyof LoadingState, value: boolean) => {
       setLoading((prev) => ({ ...prev, [type]: value }));
     },
     []

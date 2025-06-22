@@ -1,11 +1,11 @@
 import { useCallback, useMemo, useRef } from "react";
-import type { ITask } from "@/entities/task/types";
+import type { Task } from "@/entities/task/types";
 import { useAuthStore } from "@/shared/store/auth";
 import { useTaskFirebaseOperations } from "./useTaskFirebaseOperations";
 import { useTaskSync } from "./useTaskSync";
 import { useTimerState } from "./useTimerState";
 
-export const useTaskTimer = (task: ITask | null) => {
+export const useTaskTimer = (task: Task | null) => {
   const uid = useAuthStore((s) => s.user?.uid);
 
   const internalLockRef = useRef(false);

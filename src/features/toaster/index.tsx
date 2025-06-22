@@ -2,7 +2,7 @@ import { useToastStore } from "@/shared/store/toast";
 import { useEffect, useState } from "react";
 import { CheckCircle, XCircle, X } from "lucide-react";
 
-interface ToastItemProps {
+interface IToastItemProps {
   toast: {
     id: number;
     message: string;
@@ -11,7 +11,7 @@ interface ToastItemProps {
   onRemove: (id: number) => void;
 }
 
-const ToastItem = ({ toast, onRemove }: ToastItemProps) => {
+const ToastItem = ({ toast, onRemove }: IToastItemProps) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
 

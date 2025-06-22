@@ -10,17 +10,17 @@ import {
   runTransaction,
 } from "firebase/firestore";
 import { db } from "@/shared/lib/firebase";
-import type { ITask } from "@/entities/task/types";
+import type { Task } from "@/entities/task/types";
 import {
   calculateDurationMs,
   validateSession,
   createNewSession,
   closeSession,
-} from "@/shared/lib/utils/taskTimerUtils";
+} from "@/shared/lib/utils/taskTimer";
 
 export const useTaskFirebaseOperations = (
   uid: string | undefined,
-  task: ITask | null
+  task: Task | null
 ) => {
   const isValidTask = !!task?.id && !!uid;
 
@@ -55,7 +55,7 @@ export const useTaskFirebaseOperations = (
         throw new Error("Задачу не знайдено");
       }
 
-      const taskData = taskDoc.data() as ITask;
+      const taskData = taskDoc.data() as Task;
       const sessions = [...(taskData.sessions ?? [])];
       const { hasActiveSession } = validateSession(sessions);
 
@@ -100,7 +100,7 @@ export const useTaskFirebaseOperations = (
         throw new Error("Задачу не знайдено");
       }
 
-      const taskData = taskDoc.data() as ITask;
+      const taskData = taskDoc.data() as Task;
       const sessions = [...(taskData.sessions ?? [])];
       const { hasActiveSession, lastSession } = validateSession(sessions);
 

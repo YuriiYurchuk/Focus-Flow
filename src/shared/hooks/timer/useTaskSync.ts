@@ -1,16 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { onSnapshot, DocumentReference } from "firebase/firestore";
-import type { ITask } from "@/entities/task/types";
+import type { Task } from "@/entities/task/types";
 import {
   calculateDurationMs,
   isSessionActive,
-} from "@/shared/lib/utils/taskTimerUtils";
+} from "@/shared/lib/utils/taskTimer";
 
 export const useTaskSync = (
   taskRef: DocumentReference | null,
-  initialTask: ITask | null
+  initialTask: Task | null
 ) => {
-  const [currentTask, setCurrentTask] = useState<ITask | null>(initialTask);
+  const [currentTask, setCurrentTask] = useState<Task | null>(initialTask);
   const [isActive, setIsActive] = useState(false);
   const [syncError, setSyncError] = useState<string | null>(null);
   const completedDurationRef = useRef<number>(0);
@@ -54,7 +54,7 @@ export const useTaskSync = (
           return;
         }
 
-        const data = snapshot.data() as ITask;
+        const data = snapshot.data() as Task;
         setCurrentTask(data);
 
         const sessions = data.sessions ?? [];

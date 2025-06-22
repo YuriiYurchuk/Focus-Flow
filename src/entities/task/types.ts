@@ -1,23 +1,19 @@
 import { Timestamp } from "firebase/firestore";
 
-export type ITaskStatus =
-  | "not-started"
-  | "in-progress"
-  | "paused"
-  | "completed";
-export type ITaskPriority = "low" | "medium" | "high";
+export type TaskStatus = "not-started" | "in-progress" | "paused" | "completed";
+export type TaskPriority = "low" | "medium" | "high";
 
 export interface ISession {
   start: Timestamp;
   end?: Timestamp;
 }
 
-export type ITask = {
+export type Task = {
   id: string;
   title: string;
   description?: string;
-  status: ITaskStatus;
-  priority: ITaskPriority;
+  status: TaskStatus;
+  priority: TaskPriority;
   createdAt: Timestamp;
   updatedAt: Timestamp;
   deadline?: Timestamp;
@@ -27,7 +23,7 @@ export type ITask = {
   duration?: number;
 };
 
-export type ILoadingState = {
+export type LoadingState = {
   starting: boolean;
   pausing: boolean;
 };

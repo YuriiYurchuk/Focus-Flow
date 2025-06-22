@@ -6,6 +6,9 @@ import type {
   IErrorMessageProps,
 } from "@/features/ui/select/types";
 import { colorClasses } from "@/shared/model/color";
+import { useClickOutside } from "@/shared/hooks/useClickOutside";
+import { useAccessibleFocus } from "@/shared/hooks/useAccessibleFocus";
+import { useKeyboardNavigation } from "@/shared/hooks/useKeyboardNavigation";
 
 function ErrorMessage({ error, name }: Readonly<IErrorMessageProps>) {
   return (
@@ -69,29 +72,32 @@ export const Select: React.FC<ISelectProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
   const listboxRef = useRef<HTMLDivElement>(null);
-
   const listboxId = `listbox-${name}`;
   const colorConfig = colorClasses[color];
   const selectedOption = options.find((option) => option.value === value);
   const displayValue = selectedOption?.label ?? "";
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        selectRef.current &&
-        !selectRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-        onBlur?.();
-      }
-    };
+  const { setFocus, setFocusRef } = useAccessibleFocus();
+  const { addRef } = useClickOutside(() => {
+    setIsOpen(false);
+    onBlur?.();
+  }, isOpen);
 
+  useKeyboardNavigation(isOpen, () => {
+    setIsOpen(false);
+    onBlur?.();
+  });
+
+  useEffect(() => {
+    addRef(selectRef.current);
+    addRef(listboxRef.current);
+  }, [addRef]);
+
+  useEffect(() => {
     if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-      return () =>
-        document.removeEventListener("mousedown", handleClickOutside);
+      setTimeout(() => setFocus(), 0);
     }
-  }, [isOpen, onBlur]);
+  }, [isOpen, setFocus]);
 
   const handleToggle = () => {
     if (disabled) return;
@@ -192,7 +198,10 @@ export const Select: React.FC<ISelectProps> = ({
         </div>
         <div
           id={listboxId}
-          ref={listboxRef}
+          ref={(el) => {
+            listboxRef.current = el;
+            setFocusRef(el);
+          }}
           className={`
             absolute z-50 w-full mt-1 bg-white dark:bg-gray-800 
             border border-gray-200 dark:border-gray-600 rounded-2xl shadow-lg 
