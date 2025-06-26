@@ -38,7 +38,9 @@ export const TaskMenu: React.FC<ITaskMenuProps> = ({ onDelete }) => {
         <button
           onClick={handleToggleMenu}
           className={`p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${
-            showMenu ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+            showMenu
+              ? "opacity-100"
+              : "opacity-0 md:group-hover:opacity-100 max-md:opacity-100"
           }`}
         >
           <MoreVertical
