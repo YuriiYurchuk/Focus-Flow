@@ -63,8 +63,6 @@ export const TaskBadges: React.FC<ITaskBadgesProps> = ({
         />
         <span className={priorityConfig.textColor}>{priorityConfig.label}</span>
       </BadgeWrapper>
-
-      {/* Дедлайн або статус виконання */}
       {task.deadline && (
         <>
           {completedOnTime && (
@@ -79,7 +77,6 @@ export const TaskBadges: React.FC<ITaskBadgesProps> = ({
               </span>
             </BadgeWrapper>
           )}
-
           {completedLate && (
             <BadgeWrapper className="bg-red-50 dark:bg-red-900/20">
               <AlertTriangle
@@ -92,7 +89,6 @@ export const TaskBadges: React.FC<ITaskBadgesProps> = ({
               </span>
             </BadgeWrapper>
           )}
-
           {task.status !== "completed" && (
             <BadgeWrapper className="bg-blue-50 dark:bg-blue-900/20">
               <Calendar
@@ -107,7 +103,6 @@ export const TaskBadges: React.FC<ITaskBadgesProps> = ({
           )}
         </>
       )}
-
       {hasTimeTracking && (
         <BadgeWrapper className="bg-purple-50 dark:bg-purple-900/20">
           <Clock

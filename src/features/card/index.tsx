@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTaskTimer } from "@/shared/hooks/timer/useTaskTimer";
 import { useToastStore } from "@/shared/store/toast";
 import { TaskMenu } from "./task-menu";
@@ -25,6 +25,8 @@ export const Card: React.FC<ITaskCardProps> = ({
     canPause,
     clearError,
   } = useTaskTimer(task);
+  const [expandedTitle, setExpandedTitle] = useState(false);
+  const [expandedDescription, setExpandedDescription] = useState(false);
   const { showToast } = useToastStore();
 
   useEffect(() => {
@@ -80,21 +82,29 @@ export const Card: React.FC<ITaskCardProps> = ({
             </div>
             <div className="flex-1 min-w-0">
               <h3
-                className={`font-semibold text-lg leading-tight transition-all duration-200 ${
-                  task.status === "completed"
-                    ? "line-through text-gray-500 dark:text-gray-500"
-                    : "text-gray-900 dark:text-white"
-                }`}
+                className={`font-semibold text-lg leading-tight transition-all duration-200 
+                  ${expandedTitle ? "" : "line-clamp-2"} cursor-pointer
+                  ${
+                    task.status === "completed"
+                      ? "line-through text-gray-500"
+                      : "text-gray-900 dark:text-white"
+                  }`}
+                onClick={() => setExpandedTitle(!expandedTitle)}
+                title={task.title}
               >
                 {task.title}
               </h3>
               {task.description && (
                 <p
-                  className={`text-sm mt-1 transition-all duration-200 ${
+                  className={`text-sm mt-1 transition-all duration-200 cursor-pointer
+                  ${expandedDescription ? "" : "line-clamp-3"}
+                  ${
                     task.status === "completed"
-                      ? "line-through text-gray-400 dark:text-gray-600"
+                      ? "line-through text-gray-400"
                       : "text-gray-600 dark:text-gray-400"
                   }`}
+                  onClick={() => setExpandedDescription(!expandedDescription)}
+                  title={task.description}
                 >
                   {task.description}
                 </p>
@@ -103,13 +113,11 @@ export const Card: React.FC<ITaskCardProps> = ({
           </div>
           <TaskMenu onDelete={handleDelete} />
         </div>
-
         <TaskBadges
           task={task}
           priorityConfig={priorityConfig}
           elapsed={elapsed}
         />
-
         <TaskButtons
           task={task}
           isActive={isActive}

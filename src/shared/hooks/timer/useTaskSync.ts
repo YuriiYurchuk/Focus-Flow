@@ -13,6 +13,7 @@ export const useTaskSync = (
   const [currentTask, setCurrentTask] = useState<Task | null>(initialTask);
   const [isActive, setIsActive] = useState(false);
   const [syncError, setSyncError] = useState<string | null>(null);
+
   const completedDurationRef = useRef<number>(0);
   const currentSessionStartRef = useRef<number | null>(null);
   const unsubscribeRef = useRef<(() => void) | null>(null);
@@ -36,6 +37,8 @@ export const useTaskSync = (
   }, [initialTask?.id]);
 
   useEffect(() => {
+    let isMounted = true;
+
     if (!taskRef) {
       unsubscribeRef.current?.();
       unsubscribeRef.current = null;
@@ -47,8 +50,9 @@ export const useTaskSync = (
     const unsubscribe = onSnapshot(
       taskRef,
       (snapshot) => {
+        if (!isMounted) return;
+
         if (!snapshot.exists()) {
-          setSyncError("Задачу не знайдено");
           setCurrentTask(null);
           resetRefs();
           return;
@@ -60,7 +64,6 @@ export const useTaskSync = (
         const sessions = data.sessions ?? [];
         const lastSession = sessions.at(-1);
         const sessionActive = isSessionActive(data.status, sessions);
-
         setIsActive(sessionActive);
 
         const completed = sessionActive ? sessions.slice(0, -1) : sessions;
@@ -75,6 +78,7 @@ export const useTaskSync = (
         setSyncError(null);
       },
       (error) => {
+        if (!isMounted) return;
         console.error("Firestore sync error:", error);
         setSyncError("Помилка синхронізації");
       }
@@ -83,6 +87,7 @@ export const useTaskSync = (
     unsubscribeRef.current = unsubscribe;
 
     return () => {
+      isMounted = false;
       unsubscribe();
       unsubscribeRef.current = null;
       resetRefs();
