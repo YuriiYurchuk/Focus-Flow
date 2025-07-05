@@ -1,5 +1,14 @@
+import { UserInfo } from "./user-info";
+import { useAuthStore } from "@/shared/store/auth";
+
 const Dashboard: React.FC = () => {
-  return <div className="text-amber-50">Dashboard</div>;
+  const uid = useAuthStore((state) => state.user?.uid);
+
+  return (
+    <div>
+      <UserInfo key={uid} userId={uid} />
+    </div>
+  );
 };
 
 export const Component = Dashboard;
