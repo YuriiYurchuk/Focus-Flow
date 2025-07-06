@@ -8,7 +8,7 @@ import {
 import { differenceInCalendarDays, isSameDay } from "date-fns";
 import { db } from "@/shared/lib/firebase";
 
-export const uidToUserActivity = async (uid: string) => {
+export const updateUserStreak = async (uid: string) => {
   const userRef = doc(db, `users/${uid}`);
   const userSnap = await getDoc(userRef);
 

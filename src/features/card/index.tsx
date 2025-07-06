@@ -6,6 +6,9 @@ import { TaskBadges } from "./task-badges";
 import { TaskButtons } from "./task-buttons";
 import { getPriorityConfig, getStatusConfig } from "@/shared/model/card";
 import type { ITaskCardProps } from "@/entities/card/types";
+import { updateUserStreak } from "@/shared/lib/helpers/userActivity";
+import { userCompletedTask } from "@/shared/lib/helpers/userCompletedTask";
+import { useAuthStore } from "@/shared/store/auth";
 
 export const Card: React.FC<ITaskCardProps> = ({
   task,
@@ -28,6 +31,7 @@ export const Card: React.FC<ITaskCardProps> = ({
   const [expandedTitle, setExpandedTitle] = useState(false);
   const [expandedDescription, setExpandedDescription] = useState(false);
   const { showToast } = useToastStore();
+  const uid = useAuthStore((state) => state.user?.uid);
 
   useEffect(() => {
     if (error) {
@@ -54,11 +58,20 @@ export const Card: React.FC<ITaskCardProps> = ({
     }
   };
 
-  const handleCompleteTask = () => {
+  const handleCompleteTask = async () => {
     if (isActive) {
       pauseTimer();
     }
+
     onStatusChange?.(task.id, "completed");
+
+    if (uid) {
+      try {
+        await Promise.all([updateUserStreak(uid), userCompletedTask(uid)]);
+      } catch (error) {
+        console.error("Помилка при оновленні статистики.", error);
+      }
+    }
   };
 
   const handleDelete = () => {
