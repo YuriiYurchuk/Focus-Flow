@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useNavigation, useLocation, useOutlet } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
 import { Header } from "@/features/header";
 import { MobileNav } from "@/features/nav";
 import { Toaster } from "@/features/toaster";
 import { Loader } from "@/features/loader";
-import { AnimatePresence, motion } from "framer-motion";
 import { useAuthStatus } from "@/shared/hooks/useAuthStatus";
+import { useSyncEmailOnLogin } from "@/shared/hooks/useSyncEmailOnLogin";
 
 const AnimatedOutlet: React.FC = () => {
   const outlet = useOutlet();
@@ -16,6 +17,7 @@ const AnimatedOutlet: React.FC = () => {
 export const AppLayout: React.FC = () => {
   const navigation = useNavigation();
   const location = useLocation();
+  useSyncEmailOnLogin();
   const { isLoading: authLoading } = useAuthStatus();
   const isLoading = navigation.state === "loading" || authLoading;
 
