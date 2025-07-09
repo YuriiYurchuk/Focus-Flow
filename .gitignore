@@ -35,3 +35,6 @@ Thumbs.db
 .env
 .env.local
 .env.*.local
+
+# Firebase Admin SDK service account key
+serviceAccountKey.json
