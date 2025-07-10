@@ -13,6 +13,7 @@ import { editSchema } from "@/shared/schema/editSchema";
 import { handleValidationErrors } from "@/shared/lib/helpers/validationHelpers";
 import { useToastStore } from "@/shared/store/toast";
 import type { IUser } from "@/entities/user/types";
+import { processUserAchievements } from "@/shared/lib/helpers/processUserAchievements";
 
 interface IProps {
   user: {
@@ -85,6 +86,7 @@ export const EditUser: React.FC<IProps> = ({
         await updateDoc(doc(db, "users", userId), updates);
         showToast({ message: "Ім’я оновлено!", type: "success" });
         onSuccess(updates);
+        await processUserAchievements(userId, { editedProfile: true });
       } else if (!emailUpdated) {
         onCancel();
       }

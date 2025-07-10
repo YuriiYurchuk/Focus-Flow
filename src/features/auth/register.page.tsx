@@ -18,6 +18,7 @@ import {
 } from "@/shared/lib/helpers/validationHelpers";
 import type { IUser } from "@/entities/user/types";
 import { ROUTES } from "@/shared/model/routes";
+import type { IGrantedAchievement } from "@/entities/achievement/types";
 
 const RegisterForm: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -57,7 +58,7 @@ const RegisterForm: React.FC = () => {
       );
       await sendEmailVerification(userCredential.user);
       const uid = userCredential.user.uid;
-      const user: IUser = {
+      const user: IUser & { achievements?: IGrantedAchievement[] } = {
         uid,
         fullName,
         email,
@@ -65,6 +66,12 @@ const RegisterForm: React.FC = () => {
         streak: 1,
         lastActiveAt: Timestamp.fromDate(new Date()),
         completedTasksCount: 0,
+        achievements: [
+          {
+            id: "first_login",
+            grantedAt: Timestamp.fromDate(new Date()),
+          },
+        ],
       };
       await setDoc(doc(db, "users", uid), user);
       showToast({ message: "Реєстрація успішна!", type: "success" });
@@ -150,7 +157,7 @@ const RegisterForm: React.FC = () => {
       />
       <Input
         type="password"
-        placeholder="Підтвердіть пароль"
+        placeholder="Підтвердьте пароль"
         value={confirmPassword}
         icon={<Lock size={16} />}
         name="confirmPassword"

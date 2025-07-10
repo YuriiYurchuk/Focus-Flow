@@ -6,7 +6,7 @@ import { TaskBadges } from "./task-badges";
 import { TaskButtons } from "./task-buttons";
 import { getPriorityConfig, getStatusConfig } from "@/shared/model/card";
 import type { ITaskCardProps } from "@/entities/card/types";
-import { updateUserStreak } from "@/shared/lib/helpers/userActivity";
+import { userActivity } from "@/shared/lib/helpers/userActivity";
 import { userCompletedTask } from "@/shared/lib/helpers/userCompletedTask";
 import { useAuthStore } from "@/shared/store/auth";
 
@@ -60,14 +60,14 @@ export const Card: React.FC<ITaskCardProps> = ({
 
   const handleCompleteTask = async () => {
     if (isActive) {
-      pauseTimer();
+      await pauseTimer();
     }
 
     onStatusChange?.(task.id, "completed");
 
     if (uid) {
       try {
-        await Promise.all([updateUserStreak(uid), userCompletedTask(uid)]);
+        await Promise.all([userActivity(uid), userCompletedTask(uid, task)]);
       } catch (error) {
         console.error("Помилка при оновленні статистики.", error);
       }

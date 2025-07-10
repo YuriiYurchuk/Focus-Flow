@@ -1,10 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { processUserAchievements } from "@/shared/lib/helpers/processUserAchievements";
+import { useAuthStore } from "@/shared/store/auth";
 
 const DARK_COLOR = "#111827";
 const LIGHT_COLOR = "#eef2ff";
 
 export const useDarkTheme = () => {
   const [theme, setTheme] = useState<"light" | "dark">("light");
+  const uid = useAuthStore((state) => state.user?.uid);
+
+  const achievementGranted = useRef(false);
 
   const updateThemeColorMeta = (color: string) => {
     const metaTag = document.querySelector('meta[name="theme-color"]');
@@ -36,11 +41,20 @@ export const useDarkTheme = () => {
     applyTheme(initialTheme);
   }, []);
 
-  const toggleTheme = () => {
+  const toggleTheme = async () => {
     const newTheme = theme === "dark" ? "light" : "dark";
     setTheme(newTheme);
     localStorage.setItem("theme", newTheme);
     applyTheme(newTheme);
+
+    if (newTheme === "dark" && uid && !achievementGranted.current) {
+      achievementGranted.current = true;
+      try {
+        await processUserAchievements(uid, { enabledDarkMode: true });
+      } catch (error) {
+        console.error("Помилка при оновленні досягнення темної теми:", error);
+      }
+    }
   };
 
   return { theme, toggleTheme };
