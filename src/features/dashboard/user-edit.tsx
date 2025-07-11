@@ -25,7 +25,7 @@ interface IProps {
   onCancel: () => void;
 }
 
-export const EditUser: React.FC<IProps> = ({
+export const UserEdit: React.FC<IProps> = ({
   user,
   userId,
   onSuccess,

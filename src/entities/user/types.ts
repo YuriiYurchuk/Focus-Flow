@@ -1,4 +1,5 @@
 import { Timestamp } from "firebase/firestore";
+import type { IGrantedAchievement } from "@/entities/achievement/types";
 
 export interface IUser {
   uid: string;
@@ -8,4 +9,5 @@ export interface IUser {
   streak: number;
   lastActiveAt: Timestamp;
   completedTasksCount: number;
+  achievements: IGrantedAchievement[];
 }

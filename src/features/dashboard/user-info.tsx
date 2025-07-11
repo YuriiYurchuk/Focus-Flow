@@ -5,7 +5,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { db } from "@/shared/lib/firebase";
 import type { IUser } from "@/entities/user/types";
 import { useToastStore } from "@/shared/store/toast";
-import { EditUser } from "./edit-user";
+import { UserEdit } from "./user-edit";
+import { useAchievementsStore } from "@/shared/store/achievements";
 
 interface IProps {
   userId?: string;
@@ -36,6 +37,9 @@ export const UserInfo: React.FC<IProps> = ({ userId }) => {
         if (userDoc.exists()) {
           const userData = userDoc.data() as IUser;
           setUser(userData);
+          useAchievementsStore
+            .getState()
+            .setUserAchievements(userData.achievements || []);
         } else {
           setUser(null);
           showToast({ message: "Користувача не знайдено", type: "error" });
@@ -97,7 +101,7 @@ export const UserInfo: React.FC<IProps> = ({ userId }) => {
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
           >
-            <EditUser
+            <UserEdit
               userId={userId!}
               user={{ email: user.email, fullName: user.fullName }}
               onSuccess={(updates) => {
