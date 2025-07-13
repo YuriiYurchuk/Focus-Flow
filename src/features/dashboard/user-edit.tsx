@@ -15,6 +15,8 @@ import { useToastStore } from "@/shared/store/toast";
 import type { IUser } from "@/entities/user/types";
 import { processUserAchievements } from "@/shared/lib/helpers/processUserAchievements";
 
+const normalizeEmail = (email: string): string => email.trim().toLowerCase();
+
 interface IProps {
   user: {
     email: string;
@@ -38,8 +40,8 @@ export const UserEdit: React.FC<IProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { showToast } = useToastStore();
 
-  const isEmailChanged = email !== user.email;
-  const isChanged = isEmailChanged || fullName !== user.fullName;
+  const isEmailChanged = normalizeEmail(email) !== normalizeEmail(user.email);
+  const isChanged = isEmailChanged || fullName.trim() !== user.fullName.trim();
 
   const handleSave = async () => {
     setFieldErrors({});
@@ -62,18 +64,25 @@ export const UserEdit: React.FC<IProps> = ({
       let emailUpdated = false;
 
       if (isEmailChanged) {
+        const normalizedEmail = normalizeEmail(email);
+
+        if (normalizedEmail === normalizeEmail(user.email)) {
+          setIsSubmitting(false);
+          return;
+        }
+
         const credential = EmailAuthProvider.credential(
           authUser.email!,
           password
         );
         await reauthenticateWithCredential(authUser, credential);
 
-        await verifyBeforeUpdateEmail(authUser, email);
+        await verifyBeforeUpdateEmail(authUser, normalizedEmail);
         emailUpdated = true;
 
         showToast({
           message:
-            "На нову адресу надіслано лист підтвердження. Email буде змінено після підтвердження.",
+            "Лист для підтвердження надіслано. Зміна email після підтвердження.",
           type: "success",
         });
       }
@@ -92,9 +101,7 @@ export const UserEdit: React.FC<IProps> = ({
       }
     } catch (error: unknown) {
       if (error instanceof FirebaseError) {
-        if (error.code === "auth/email-already-in-use") {
-          showToast({ message: "Email вже використовується", type: "error" });
-        } else if (error.code === "auth/requires-recent-login") {
+        if (error.code === "auth/requires-recent-login") {
           showToast({
             message:
               "Потрібно повторно увійти. Введіть пароль і спробуйте ще раз.",

@@ -62,7 +62,7 @@ const ToastItem = ({ toast, onRemove }: IToastItemProps) => {
       role="alert"
       aria-live="assertive"
       aria-atomic="true"
-      className={`${getToastStyles()} px-4 py-3 rounded-xl text-white text-sm max-w-sm`}
+      className={`${getToastStyles()} px-4 py-3 rounded-xl text-white text-sm w-full sm:max-w-sm`}
     >
       <div className="absolute bottom-0 left-0 h-1 bg-white/20 w-full">
         <div
