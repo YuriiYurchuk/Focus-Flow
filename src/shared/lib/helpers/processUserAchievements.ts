@@ -13,7 +13,6 @@ import type {
   IGrantedAchievement,
   IUserAchievementStats,
 } from "@/entities/achievement/types";
-import { useAchievementsStore } from "@/shared/store/achievements";
 
 interface UserData extends IUserAchievementStats {
   achievements?: IGrantedAchievement[];
@@ -118,20 +117,6 @@ export const processUserAchievements = async (
       await updateDoc(userRef, {
         achievements: arrayUnion(...newAchievements),
       });
-
-      const store = useAchievementsStore.getState();
-      for (const achievement of newAchievements) {
-        store.addUserAchievement(achievement);
-      }
-
-      console.log(
-        `Додано ${newAchievements.length} нових досягнень:`,
-        newAchievements.map((a) => a.id)
-      );
-      console.log(
-        "Оновлений список досягнень у сторі:",
-        store.userAchievements
-      );
     }
 
     return {

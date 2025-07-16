@@ -27,5 +27,5 @@ export interface IAchievement {
 
 export interface IGrantedAchievement {
   id: string;
-  grantedAt: Date | Timestamp;
+  grantedAt: Timestamp;
 }

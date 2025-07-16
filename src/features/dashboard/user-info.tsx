@@ -1,70 +1,23 @@
-import { useEffect, useState } from "react";
-import { doc, getDoc } from "firebase/firestore";
+import { useState, useEffect } from "react";
 import { User, Mail, Flame, CheckCircle, Edit3 } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
-import { db } from "@/shared/lib/firebase";
-import type { IUser } from "@/entities/user/types";
-import { useToastStore } from "@/shared/store/toast";
 import { UserEdit } from "./user-edit";
-import { useAchievementsStore } from "@/shared/store/achievements";
+import type { IUser } from "@/entities/user/types";
 
 interface IProps {
-  userId?: string;
+  user: IUser | null;
+  isLoading: boolean;
 }
 
-export const UserInfo: React.FC<IProps> = ({ userId }) => {
-  const [user, setUser] = useState<IUser | null>(null);
-  const [loading, setLoading] = useState(true);
+export const UserInfo: React.FC<IProps> = ({ user: userProp, isLoading }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const { showToast } = useToastStore();
+  const [user, setUser] = useState<IUser | null>(userProp);
 
   useEffect(() => {
-    let cancelled = false;
+    setUser(userProp);
+  }, [userProp]);
 
-    async function fetchUser() {
-      if (!userId?.trim()) {
-        setLoading(false);
-        return;
-      }
-
-      setLoading(true);
-
-      try {
-        const userDoc = await getDoc(doc(db, "users", userId));
-
-        if (cancelled) return;
-
-        if (userDoc.exists()) {
-          const userData = userDoc.data() as IUser;
-          setUser(userData);
-          useAchievementsStore
-            .getState()
-            .setUserAchievements(userData.achievements || []);
-        } else {
-          setUser(null);
-          showToast({ message: "Користувача не знайдено", type: "error" });
-        }
-      } catch (error) {
-        if (!cancelled) {
-          console.error("Помилка завантаження користувача:", error);
-          setUser(null);
-          showToast({ message: "Помилка завантаження даних", type: "error" });
-        }
-      } finally {
-        if (!cancelled) {
-          setLoading(false);
-        }
-      }
-    }
-
-    fetchUser();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [userId, showToast]);
-
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="animate-pulse space-y-4">
         <div className="flex sm:flex-row items-center gap-3 p-4 bg-gray-100 dark:bg-gray-800 rounded-xl">
@@ -102,7 +55,7 @@ export const UserInfo: React.FC<IProps> = ({ userId }) => {
             transition={{ duration: 0.3 }}
           >
             <UserEdit
-              userId={userId!}
+              userId={user.uid}
               user={{ email: user.email, fullName: user.fullName }}
               onSuccess={(updates) => {
                 setUser((prev) => (prev ? { ...prev, ...updates } : prev));
