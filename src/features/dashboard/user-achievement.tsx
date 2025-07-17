@@ -153,7 +153,7 @@ export const UserAchievement: React.FC<IUserAchievementProps> = ({
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3
-                      className={`font-semibold text-base truncate ${
+                      className={`font-semibold text-base ${
                         hasUserAchieved
                           ? "text-green-800 dark:text-green-200"
                           : "text-gray-900 dark:text-gray-100"

@@ -16,6 +16,7 @@ import { Select } from "@/features/ui/select";
 import { useToastStore } from "@/shared/store/toast";
 import { useAuthStore } from "@/shared/store/auth";
 import { userActivity } from "@/shared/lib/helpers/userActivity";
+import { logUserActivity } from "@/shared/lib/helpers/logUserActivity";
 import type { Task, TaskPriority } from "@/entities/task/types";
 
 export const FormTask: React.FC = () => {
@@ -67,7 +68,17 @@ export const FormTask: React.FC = () => {
 
       await setDoc(taskRef, newTask);
       if (uid) {
-        await userActivity(uid);
+        await Promise.all([
+          userActivity(uid),
+          logUserActivity(
+            uid,
+            "task_created",
+            `Створено завдання: "${title}"`,
+            {
+              taskId: taskRef.id,
+            }
+          ),
+        ]);
       }
       showToast({ message: "Завдання успішно додано!", type: "success" });
       setTitle("");

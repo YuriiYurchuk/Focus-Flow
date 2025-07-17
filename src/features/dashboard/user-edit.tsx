@@ -12,8 +12,9 @@ import { db, auth } from "@/shared/lib/firebase";
 import { editSchema } from "@/shared/schema/editSchema";
 import { handleValidationErrors } from "@/shared/lib/helpers/validationHelpers";
 import { useToastStore } from "@/shared/store/toast";
-import type { IUser } from "@/entities/user/types";
 import { processUserAchievements } from "@/shared/lib/helpers/processUserAchievements";
+import { logUserActivity } from "@/shared/lib/helpers/logUserActivity";
+import type { IUser } from "@/entities/user/types";
 
 const normalizeEmail = (email: string): string => email.trim().toLowerCase();
 
@@ -95,6 +96,10 @@ export const UserEdit: React.FC<IProps> = ({
         await updateDoc(doc(db, "users", userId), updates);
         showToast({ message: "Ім’я оновлено!", type: "success" });
         onSuccess(updates);
+        await logUserActivity(userId, "profile_updated", "Оновлення профілю", {
+          changedFields: Object.keys(updates),
+        });
+
         await processUserAchievements(userId, { editedProfile: true });
       } else if (!emailUpdated) {
         onCancel();

@@ -5,10 +5,11 @@ import { TaskMenu } from "./task-menu";
 import { TaskBadges } from "./task-badges";
 import { TaskButtons } from "./task-buttons";
 import { getPriorityConfig, getStatusConfig } from "@/shared/model/card";
-import type { ITaskCardProps } from "@/entities/card/types";
 import { userActivity } from "@/shared/lib/helpers/userActivity";
 import { userCompletedTask } from "@/shared/lib/helpers/userCompletedTask";
 import { useAuthStore } from "@/shared/store/auth";
+import { logUserActivity } from "@/shared/lib/helpers/logUserActivity";
+import type { ITaskCardProps } from "@/entities/card/types";
 
 export const Card: React.FC<ITaskCardProps> = ({
   task,
@@ -74,10 +75,24 @@ export const Card: React.FC<ITaskCardProps> = ({
     }
   };
 
-  const handleDelete = () => {
-    onDelete?.(task.id);
-  };
+  const handleDelete = async () => {
+    if (!uid) return;
 
+    try {
+      await logUserActivity(
+        uid,
+        "task_deleted",
+        `Видалено завдання: "${task.title}"`,
+        {
+          taskId: task.id,
+        }
+      );
+
+      onDelete?.(task.id);
+    } catch (error) {
+      console.error("Не вдалося залогувати видалення таска:", error);
+    }
+  };
   return (
     <div
       className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xs border border-gray-100

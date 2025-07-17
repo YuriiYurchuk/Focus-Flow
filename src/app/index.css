@@ -4,6 +4,8 @@
 
 @layer base {
   html {
+    overflow-y: scroll;
+
     @apply min-h-screen;
     background: linear-gradient(to bottom right, #eff6ff, #eef2ff, #f5f3ff);
 

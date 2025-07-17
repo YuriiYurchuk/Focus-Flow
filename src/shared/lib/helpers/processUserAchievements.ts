@@ -8,6 +8,7 @@ import {
   getDoc,
 } from "firebase/firestore";
 import { db } from "@/shared/lib/firebase";
+import { logUserActivity } from "@/shared/lib/helpers/logUserActivity";
 import type {
   IAchievement,
   IGrantedAchievement,
@@ -117,6 +118,20 @@ export const processUserAchievements = async (
       await updateDoc(userRef, {
         achievements: arrayUnion(...newAchievements),
       });
+
+      for (const granted of newAchievements) {
+        const achievementInfo = allAchievements.find(
+          (a) => a.id === granted.id
+        );
+        if (!achievementInfo) continue;
+
+        await logUserActivity(
+          userId,
+          "achievement_granted",
+          `Отримано досягнення: "${achievementInfo.title}"`,
+          { achievementId: achievementInfo.id }
+        );
+      }
     }
 
     return {

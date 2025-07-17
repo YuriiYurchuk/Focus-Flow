@@ -8,6 +8,7 @@ import {
 import { getHours, isAfter } from "date-fns";
 import { db } from "@/shared/lib/firebase";
 import { processUserAchievements } from "@/shared/lib/helpers/processUserAchievements";
+import { logUserActivity } from "@/shared/lib/helpers/logUserActivity";
 import type { Task } from "@/entities/task/types";
 import type { IUserAchievementStats } from "@/entities/achievement/types";
 
@@ -62,6 +63,15 @@ export const userCompletedTask = async (uid: string, task: Task) => {
       lateTasksCount: userData.lateTasksCount,
       missedDeadlinesCount: userData.missedDeadlinesCount,
     });
+
+    await logUserActivity(
+      uid,
+      "task_completed",
+      `Завершили завдання: "${task.title}"`,
+      {
+        taskId: task.id,
+      }
+    );
   } catch (error) {
     console.error("Помилка при оновленні статистики користувача:", error);
   }
