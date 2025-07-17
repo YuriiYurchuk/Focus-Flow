@@ -26,12 +26,15 @@ const AllTaskPage = () => {
     hasMore,
     loadMore,
     totalCount,
+    setTotalCount,
   } = useTaskPagination(uid, filterStatus);
 
   const { handleCompleteTask, handleDeleteTask } = useTaskActions(
     uid,
     tasks,
-    setTasks
+    setTasks,
+    totalCount,
+    setTotalCount
   );
 
   const handleResize = useCallback(() => {

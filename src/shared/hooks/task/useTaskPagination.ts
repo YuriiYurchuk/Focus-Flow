@@ -155,5 +155,6 @@ export const useTaskPagination = (
     hasMore,
     loadMore,
     totalCount,
+    setTotalCount,
   };
 };

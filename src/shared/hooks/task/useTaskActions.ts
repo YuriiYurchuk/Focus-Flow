@@ -7,7 +7,9 @@ import type { Task } from "@/entities/task/types";
 export const useTaskActions = (
   uid: string | undefined,
   tasks: Task[],
-  setTasks: React.Dispatch<React.SetStateAction<Task[]>>
+  setTasks: React.Dispatch<React.SetStateAction<Task[]>>,
+  totalCount: number | null,
+  setTotalCount: React.Dispatch<React.SetStateAction<number | null>>
 ) => {
   const { showToast } = useToastStore();
 
@@ -32,7 +34,9 @@ export const useTaskActions = (
     async (taskId: string) => {
       if (!uid) return;
       const prevTasks = tasks;
+      const prevTotalCount = totalCount;
       setTasks((prev) => prev.filter((t) => t.id !== taskId));
+      setTotalCount((prev) => (prev !== null ? prev - 1 : prev));
 
       try {
         await deleteDoc(doc(db, "users", uid, "tasks", taskId));
@@ -40,10 +44,11 @@ export const useTaskActions = (
       } catch (error) {
         console.error("Error deleting task:", error);
         setTasks(prevTasks);
+        setTotalCount(prevTotalCount);
         showToast({ message: "Не вдалося видалити завдання.", type: "error" });
       }
     },
-    [uid, tasks, setTasks, showToast]
+    [uid, tasks, totalCount, setTasks, setTotalCount, showToast]
   );
 
   return {
