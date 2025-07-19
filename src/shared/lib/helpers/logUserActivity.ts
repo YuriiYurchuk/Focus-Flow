@@ -10,7 +10,10 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 import { db } from "@/shared/lib/firebase";
-import type { ActivityType, ActivityMetadata } from "@/entities/activity/types";
+import type {
+  ActivityType,
+  IActivityMetadata,
+} from "@/entities/activity/types";
 
 const MAX_LOGS = 30;
 
@@ -18,7 +21,7 @@ export const logUserActivity = async (
   userId: string,
   type: ActivityType,
   message: string,
-  metadata?: ActivityMetadata
+  metadata?: IActivityMetadata
 ): Promise<void> => {
   try {
     const logsRef = collection(db, "users", userId, "activityLogs");

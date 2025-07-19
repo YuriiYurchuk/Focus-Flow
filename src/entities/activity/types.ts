@@ -7,16 +7,16 @@ export type ActivityType =
   | "task_deleted"
   | "profile_updated";
 
-export interface ActivityMetadata {
+export interface IActivityMetadata {
   achievementId?: string;
   taskId?: string;
   changedFields?: string[];
 }
 
-export interface ActivityLog {
+export interface IActivityLog {
   id: string;
   type: ActivityType;
   message: string;
-  metadata?: ActivityMetadata;
+  metadata?: IActivityMetadata;
   timestamp: Timestamp;
 }
