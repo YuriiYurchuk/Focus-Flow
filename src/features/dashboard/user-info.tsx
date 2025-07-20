@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
-import { User, Mail, Flame, CheckCircle, Edit3 } from "lucide-react";
+import { User, Mail, Flame, CheckCircle, Edit3, LogOut } from "lucide-react";
+import { signOut } from "firebase/auth";
 import { AnimatePresence, motion } from "framer-motion";
 import { UserEdit } from "./user-edit";
+import { auth } from "@/shared/lib/firebase";
+import { useAuthStore } from "@/shared/store/auth";
+import { useToastStore } from "@/shared/store/toast";
 import type { IUser } from "@/entities/user/types";
 
 interface IProps {
@@ -12,10 +16,21 @@ interface IProps {
 export const UserInfo: React.FC<IProps> = ({ user: userProp, isLoading }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [user, setUser] = useState<IUser | null>(userProp);
+  const { showToast } = useToastStore();
 
   useEffect(() => {
     setUser(userProp);
   }, [userProp]);
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      useAuthStore.getState().logout();
+      showToast({ type: "success", message: "Ви вийшли з облікового запису" });
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -72,9 +87,16 @@ export const UserInfo: React.FC<IProps> = ({ user: userProp, isLoading }) => {
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
           >
-            <div className="flex flex-col sm:flex-row sm:items-center gap-4 p-4 sm:p-6 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl border border-blue-100 dark:border-blue-800">
+            <div
+              className="flex flex-col sm:flex-row sm:items-center gap-4 p-4 sm:p-6 bg-gradient-to-r from-blue-50
+             to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl border border-blue-100
+              dark:border-blue-800"
+            >
               <div className="flex items-center gap-4 flex-1 min-w-0">
-                <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full shadow-lg flex-shrink-0">
+                <div
+                  className="flex items-center justify-center w-14 h-14 bg-gradient-to-r from-blue-500
+                 to-purple-600 rounded-full shadow-lg flex-shrink-0"
+                >
                   <User className="w-7 h-7 text-white" />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -89,13 +111,27 @@ export const UserInfo: React.FC<IProps> = ({ user: userProp, isLoading }) => {
                   </div>
                 </div>
               </div>
-              <div className="flex justify-end sm:justify-center">
+              <div className="flex gap-3">
                 <button
                   onClick={() => setIsEditing(true)}
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-sm font-medium rounded-lg shadow-md hover:from-blue-600 hover:to-purple-700 hover:shadow-lg transform hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 active:scale-95"
+                  className="group relative inline-flex items-center gap-2 px-5 py-2.5 bg-white dark:bg-gray-800
+                   text-gray-700 dark:text-gray-200 text-sm font-semibold rounded-xl border border-gray-200
+                    dark:border-gray-700 shadow-sm hover:shadow-md hover:bg-gray-50 dark:hover:bg-gray-700
+                     transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+                      dark:focus:ring-offset-gray-800 active:scale-95"
                 >
-                  <Edit3 className="w-4 h-4" />
+                  <Edit3 className="w-4 h-4 group-hover:rotate-12 transition-transform duration-200" />
                   <span>Редагувати</span>
+                </button>
+                <button
+                  onClick={handleLogout}
+                  className="group relative inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-red-500
+                   to-rose-600 hover:from-red-600 hover:to-rose-700 text-white text-sm font-semibold rounded-xl
+                    shadow-md hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-500
+                     focus:ring-offset-2 dark:focus:ring-offset-gray-800 active:scale-95 overflow-hidden"
+                >
+                  <LogOut className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform duration-200" />
+                  <span>Вийти</span>
                 </button>
               </div>
             </div>
@@ -103,7 +139,7 @@ export const UserInfo: React.FC<IProps> = ({ user: userProp, isLoading }) => {
         )}
       </AnimatePresence>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="p-4 bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 rounded-xl border border-orange-100 dark:border-orange-800 hover:shadow-md transition-all">
+        <div className="p-4 bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 rounded-xl border border-orange-100 dark:border-orange-800">
           <div className="flex items-center gap-3">
             <div className="flex items-center justify-center w-10 h-10 bg-orange-100 dark:bg-orange-900 rounded-lg flex-shrink-0">
               <Flame className="w-5 h-5 text-orange-600 dark:text-orange-400" />
@@ -118,7 +154,7 @@ export const UserInfo: React.FC<IProps> = ({ user: userProp, isLoading }) => {
             </div>
           </div>
         </div>
-        <div className="p-4 bg-gradient-to-br from-emerald-50 to-green-50 dark:from-emerald-900/20 dark:to-green-900/20 rounded-xl border border-emerald-100 dark:border-emerald-800 hover:shadow-md transition-all">
+        <div className="p-4 bg-gradient-to-br from-emerald-50 to-green-50 dark:from-emerald-900/20 dark:to-green-900/20 rounded-xl border border-emerald-100 dark:border-emerald-800">
           <div className="flex items-center gap-3">
             <div className="flex items-center justify-center w-10 h-10 bg-emerald-100 dark:bg-emerald-900 rounded-lg flex-shrink-0">
               <CheckCircle className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />

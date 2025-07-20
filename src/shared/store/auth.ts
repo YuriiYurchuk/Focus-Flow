@@ -10,6 +10,7 @@ interface IAuthState {
   isLoading: boolean;
   setUser: (user: IUser | null) => void;
   setIsLoading: (loading: boolean) => void;
+  logout: () => void;
 }
 
 export const useAuthStore = create<IAuthState>((set) => ({
@@ -17,4 +18,5 @@ export const useAuthStore = create<IAuthState>((set) => ({
   isLoading: true,
   setUser: (user) => set({ user }),
   setIsLoading: (loading) => set({ isLoading: loading }),
+  logout: () => set({ user: null }),
 }));
