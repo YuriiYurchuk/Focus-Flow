@@ -22,7 +22,7 @@ export const LinkText: React.FC<ILinkTextProps> = ({
     <span>{spanText} </span>
     <Link
       to={to}
-      aria-label={`Перейти до сторінки: ${linkText}`}
+      aria-label={`${spanText} ${linkText}`}
       className="text-blue-600 font-semibold hover:underline focus-visible:underline 
       focus-visible:outline-none dark:text-blue-500 transition-colors duration-200"
     >
@@ -42,8 +42,9 @@ export const AuthHeader: React.FC<IAuthHeaderProps> = ({
     <div className="text-center mb-8">
       <div
         className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500
-      to-purple-600 rounded-2xl mb-4 shadow-lg transform transition-all duration-500 hover:scale-110 
-      hover:rotate-3 animate-pulse"
+      to-purple-600 rounded-2xl mb-4 shadow-lg transform transition-all duration-500 hover:scale-110 hover:rotate-3 animate-pulse"
+        role="img"
+        aria-label={`Іконка ${icon === "register" ? "реєстрації" : "входу"}`}
       >
         <IconComponent className="w-8 h-8 text-white transition-transform duration-300" />
       </div>

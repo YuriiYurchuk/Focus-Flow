@@ -99,7 +99,13 @@ const LoginForm: React.FC<IFormProps> = ({ setUser }) => {
   };
 
   return (
-    <form onSubmit={handleLogin} className="space-y-6" noValidate>
+    <form
+      onSubmit={handleLogin}
+      className="space-y-6"
+      noValidate
+      aria-label="Форма входу в систему"
+      aria-describedby="login-description"
+    >
       <Input
         type="email"
         placeholder="Введіть електронну пошту"
@@ -152,7 +158,7 @@ const LoginPage = () => {
   const setUser = useAuthStore((state) => state.setUser);
   return (
     <div className="flex items-center justify-center">
-      <div className="w-full max-w-lg">
+      <section className="w-full max-w-lg" aria-labelledby="login-title">
         <AuthHeader
           title="Вхід у ваш акаунт"
           description="Будь ласка, увійдіть, щоб продовжити"
@@ -168,7 +174,7 @@ const LoginPage = () => {
             />
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 };

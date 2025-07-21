@@ -99,7 +99,13 @@ const RegisterForm: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleRegister} className="space-y-6" noValidate>
+    <form
+      onSubmit={handleRegister}
+      className="space-y-6"
+      noValidate
+      aria-label="Форма реєстрації користувача"
+      aria-describedby="register-description"
+    >
       <Input
         type="email"
         placeholder="Введіть електронну пошту"
@@ -180,7 +186,7 @@ const RegisterForm: React.FC = () => {
 const RegisterPage = () => {
   return (
     <div className="flex items-center justify-center">
-      <div className="w-full max-w-lg">
+      <section className="w-full max-w-lg" aria-labelledby="register-title">
         <AuthHeader
           title="Реєстрація"
           description="Створіть акаунт, щоб розпочати використання застосунку"
@@ -196,7 +202,7 @@ const RegisterPage = () => {
             />
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 };
