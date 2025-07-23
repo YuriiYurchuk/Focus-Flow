@@ -86,7 +86,7 @@ export const UserActivity: React.FC<IProps> = ({ uid }) => {
 
   if (activeUsers.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-16 text-center">
+      <section className="flex flex-col items-center justify-center py-16 text-center">
         <div className="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-4">
           <ActivityIcon className="w-8 h-8 text-gray-400" />
         </div>
@@ -96,30 +96,36 @@ export const UserActivity: React.FC<IProps> = ({ uid }) => {
         <p className="text-gray-500 dark:text-gray-400 max-w-sm">
           Тут з'являтимуться записи про ваші досягнення, завдання та інші дії
         </p>
-      </div>
+      </section>
     );
   }
 
   return (
-    <div className="space-y-4 lg:space-y-6">
+    <section
+      className="space-y-4 lg:space-y-6"
+      aria-labelledby="activity-title"
+    >
       <div className="space-y-3 lg:space-y-4">
         {activeUsers.map((log) => {
           const config = getActivityConfig(log.type);
           const Icon = config.icon;
 
           return (
-            <div
+            <ul
               key={log.id}
               className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 lg:p-5 shadow-sm"
             >
-              <div className="flex items-start space-x-4">
+              <li className="flex items-start space-x-4">
                 <div
                   className={`
                   flex-shrink-0 w-11 h-11 lg:w-12 lg:h-12 rounded-full 
                   flex items-center justify-center ${config.iconBg} shadow-sm
                 `}
                 >
-                  <Icon className={`w-5 h-5 lg:w-6 lg:h-6 ${config.color}`} />
+                  <Icon
+                    className={`w-5 h-5 lg:w-6 lg:h-6 ${config.color}`}
+                    aria-hidden="true"
+                  />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm lg:text-base font-medium text-gray-900 dark:text-white mb-3 leading-relaxed">
@@ -128,7 +134,10 @@ export const UserActivity: React.FC<IProps> = ({ uid }) => {
                   <div className="flex items-center justify-end">
                     <div className="flex items-center space-x-1.5 text-xs text-gray-500 dark:text-gray-400">
                       <Clock className="w-3.5 h-3.5" />
-                      <time className="font-medium">
+                      <time
+                        className="font-medium"
+                        dateTime={log.timestamp.toDate().toISOString()}
+                      >
                         {formatDistanceToNow(log.timestamp.toDate(), {
                           addSuffix: true,
                           locale: uk,
@@ -137,11 +146,11 @@ export const UserActivity: React.FC<IProps> = ({ uid }) => {
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              </li>
+            </ul>
           );
         })}
       </div>
-    </div>
+    </section>
   );
 };

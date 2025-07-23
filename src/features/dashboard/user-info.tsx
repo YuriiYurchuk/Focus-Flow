@@ -59,7 +59,7 @@ export const UserInfo: React.FC<IProps> = ({ user: userProp, isLoading }) => {
   if (!user) return null;
 
   return (
-    <div className="space-y-4">
+    <section className="space-y-4">
       <AnimatePresence mode="wait">
         {isEditing ? (
           <motion.div
@@ -89,13 +89,13 @@ export const UserInfo: React.FC<IProps> = ({ user: userProp, isLoading }) => {
           >
             <div
               className="flex flex-col sm:flex-row sm:items-center gap-4 p-4 sm:p-6 bg-gradient-to-r from-blue-50
-             to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl border border-blue-100
+            to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl border border-blue-100
               dark:border-blue-800"
             >
               <div className="flex items-center gap-4 flex-1 min-w-0">
                 <div
                   className="flex items-center justify-center w-14 h-14 bg-gradient-to-r from-blue-500
-                 to-purple-600 rounded-full shadow-lg flex-shrink-0"
+                to-purple-600 rounded-full shadow-lg flex-shrink-0"
                 >
                   <User className="w-7 h-7 text-white" />
                 </div>
@@ -115,9 +115,9 @@ export const UserInfo: React.FC<IProps> = ({ user: userProp, isLoading }) => {
                 <button
                   onClick={() => setIsEditing(true)}
                   className="group relative inline-flex items-center gap-2 px-5 py-2.5 bg-white dark:bg-gray-800
-                   text-gray-700 dark:text-gray-200 text-sm font-semibold rounded-xl border border-gray-200
+                  text-gray-700 dark:text-gray-200 text-sm font-semibold rounded-xl border border-gray-200
                     dark:border-gray-700 shadow-sm hover:shadow-md hover:bg-gray-50 dark:hover:bg-gray-700
-                     transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+                    transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
                       dark:focus:ring-offset-gray-800 active:scale-95"
                 >
                   <Edit3 className="w-4 h-4 group-hover:rotate-12 transition-transform duration-200" />
@@ -126,9 +126,9 @@ export const UserInfo: React.FC<IProps> = ({ user: userProp, isLoading }) => {
                 <button
                   onClick={handleLogout}
                   className="group relative inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-red-500
-                   to-rose-600 hover:from-red-600 hover:to-rose-700 text-white text-sm font-semibold rounded-xl
+                  to-rose-600 hover:from-red-600 hover:to-rose-700 text-white text-sm font-semibold rounded-xl
                     shadow-md hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-500
-                     focus:ring-offset-2 dark:focus:ring-offset-gray-800 active:scale-95 overflow-hidden"
+                    focus:ring-offset-2 dark:focus:ring-offset-gray-800 active:scale-95 overflow-hidden"
                 >
                   <LogOut className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform duration-200" />
                   <span>Вийти</span>
@@ -170,6 +170,6 @@ export const UserInfo: React.FC<IProps> = ({ user: userProp, isLoading }) => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };

@@ -55,6 +55,7 @@ export const TaskBadges: React.FC<ITaskBadgesProps> = ({
       <BadgeWrapper
         className={priorityConfig.bgColor}
         data-testid="priority-badge"
+        aria-label={`Пріоритет завдання: ${priorityConfig.label}`}
       >
         <Flag
           size={12}
@@ -71,6 +72,8 @@ export const TaskBadges: React.FC<ITaskBadgesProps> = ({
                 size={12}
                 className="text-green-700 dark:text-green-300"
                 aria-hidden="true"
+                aria-label="Завдання виконано вчасно"
+                role="status"
               />
               <span className="text-green-700 dark:text-green-300">
                 Виконано вчасно
@@ -83,6 +86,8 @@ export const TaskBadges: React.FC<ITaskBadgesProps> = ({
                 size={12}
                 className="text-red-700 dark:text-red-300"
                 aria-hidden="true"
+                aria-label="Завдання виконано із запізненням"
+                role="alert"
               />
               <span className="text-red-700 dark:text-red-300">
                 Виконано із запізненням
@@ -94,6 +99,9 @@ export const TaskBadges: React.FC<ITaskBadgesProps> = ({
               <Calendar
                 size={12}
                 className="text-blue-700 dark:text-blue-300"
+                aria-label={`Термін виконання: ${formatDeadline(
+                  task.deadline
+                )}`}
                 aria-hidden="true"
               />
               <span className="text-blue-700 dark:text-blue-300">
@@ -104,7 +112,10 @@ export const TaskBadges: React.FC<ITaskBadgesProps> = ({
         </>
       )}
       {hasTimeTracking && (
-        <BadgeWrapper className="bg-purple-50 dark:bg-purple-900/20">
+        <BadgeWrapper
+          className="bg-purple-50 dark:bg-purple-900/20"
+          aria-label={`Час виконання: ${formatTime(elapsed)}`}
+        >
           <Clock
             size={12}
             className="text-purple-700 dark:text-purple-300"

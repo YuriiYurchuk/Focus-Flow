@@ -53,10 +53,20 @@ export const TaskButtons: React.FC<ITaskButtonsProps> = ({
   const isTimerButtonDisabled = isLoading || (!canStart && !canPause);
 
   return (
-    <div className="flex flex-col sm:flex-row gap-3 pt-3">
+    <div
+      className="flex flex-col sm:flex-row gap-3 pt-3"
+      aria-label="Дії з завданням"
+    >
       <button
         onClick={onTimerAction}
         disabled={isTimerButtonDisabled}
+        aria-label={
+          isActive
+            ? "Призупинити виконання завдання"
+            : task.status === "not-started"
+            ? "Почати виконання завдання"
+            : "Продовжити виконання завдання"
+        }
         className={`
           flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 sm:py-2.5 rounded-lg 
           font-medium transition-all duration-300 text-sm sm:text-base

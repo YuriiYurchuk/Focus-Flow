@@ -37,11 +37,13 @@ export const TaskMenu: React.FC<ITaskMenuProps> = ({ onDelete }) => {
       <div className="relative">
         <button
           onClick={handleToggleMenu}
-          className={`p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${
+          className={`p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer ${
             showMenu
               ? "opacity-100"
               : "opacity-0 md:group-hover:opacity-100 max-md:opacity-100"
           }`}
+          aria-haspopup="menu"
+          aria-controls="task-menu"
         >
           <MoreVertical
             size={16}

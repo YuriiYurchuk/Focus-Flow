@@ -95,18 +95,28 @@ export const UserAchievement: React.FC<IUserAchievementProps> = ({
   }
 
   return (
-    <div className="mx-auto mt-6">
+    <section className="mx-auto mt-6" aria-labelledby="achievements-title">
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 sm:p-8 mb-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <div className="flex items-center gap-3">
-            <div className="bg-gradient-to-r from-yellow-400 to-orange-500 p-3 rounded-xl shadow-lg">
+            <div
+              className="bg-gradient-to-r from-yellow-400 to-orange-500 p-3 rounded-xl shadow-lg"
+              aria-hidden="true"
+            >
               <Icons.Trophy className="w-6 h-6 text-white" />
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+            <h2
+              className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white"
+              id="achievements-title"
+            >
               Досягнення
             </h2>
           </div>
-          <div className="flex items-center gap-2 bg-gray-50 dark:bg-gray-700 px-4 py-2 rounded-xl">
+          <div
+            className="flex items-center gap-2 bg-gray-50 dark:bg-gray-700 px-4 py-2 rounded-xl"
+            role="status"
+            aria-label={`Виконано ${achievedCount} з ${totalCount} досягнень`}
+          >
             <span className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">
               {achievedCount}
             </span>
@@ -116,7 +126,14 @@ export const UserAchievement: React.FC<IUserAchievementProps> = ({
             </span>
           </div>
         </div>
-        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4 mb-3 overflow-hidden">
+        <div
+          className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4 mb-3 overflow-hidden"
+          role="progressbar"
+          aria-valuenow={Math.round(progressPercentage)}
+          aria-label={`Загальний прогрес досягнень: ${Math.round(
+            progressPercentage
+          )}%`}
+        >
           <div
             className="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transition-all duration-700 ease-out"
             style={{ width: `${progressPercentage}%` }}
@@ -126,7 +143,11 @@ export const UserAchievement: React.FC<IUserAchievementProps> = ({
           Виконано {Math.round(progressPercentage)}% досягнень
         </p>
       </div>
-      <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div
+        className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+        role="list"
+        aria-label="Список досягнень"
+      >
         {visibleAchievements.map((achievement) => {
           const { achievedByUser, hasUserAchieved, achievementDate, Icon } =
             getAchievementData(achievement, userAchievements);
@@ -134,6 +155,7 @@ export const UserAchievement: React.FC<IUserAchievementProps> = ({
           return (
             <div
               key={achievement.id}
+              role="listitem"
               className={`relative rounded-xl border-2 transition-all duration-300 hover:shadow-lg ${
                 hasUserAchieved
                   ? "bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border-green-200 dark:border-green-700 shadow-green-100/50 dark:shadow-green-900/20"
@@ -219,6 +241,6 @@ export const UserAchievement: React.FC<IUserAchievementProps> = ({
           );
         })}
       </div>
-    </div>
+    </section>
   );
 };
