@@ -52,6 +52,9 @@ export const TaskButtons: React.FC<ITaskButtonsProps> = ({
 
   const isTimerButtonDisabled = isLoading || (!canStart && !canPause);
 
+  const completeButtonText =
+    task.status === "not-started" ? "Виконано" : "Завершити";
+
   return (
     <div
       className="flex flex-col sm:flex-row gap-3 pt-3"
@@ -90,11 +93,10 @@ export const TaskButtons: React.FC<ITaskButtonsProps> = ({
           <span className="whitespace-nowrap">{timerButtonText}</span>
         </span>
       </button>
-      {(task.status === "in-progress" || task.status === "paused") && (
-        <button
-          onClick={onCompleteTask}
-          disabled={isLoading}
-          className={`
+      <button
+        onClick={onCompleteTask}
+        disabled={isLoading}
+        className={`
             w-full sm:w-auto px-4 py-3 sm:py-2.5 rounded-lg font-medium transition-all duration-300 
             inline-flex items-center justify-center gap-2 shadow-sm text-sm sm:text-base
             focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-300
@@ -105,13 +107,12 @@ export const TaskButtons: React.FC<ITaskButtonsProps> = ({
                   hover:brightness-110 active:scale-[0.99]`
             }
           `}
-        >
-          <span className="flex items-center gap-2">
-            <Check className="w-4 h-4" />
-            <span className="whitespace-nowrap">Завершити</span>
-          </span>
-        </button>
-      )}
+      >
+        <span className="flex items-center gap-2">
+          <Check className="w-4 h-4" />
+          <span className="whitespace-nowrap">{completeButtonText}</span>
+        </span>
+      </button>
     </div>
   );
 };
