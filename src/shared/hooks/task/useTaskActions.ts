@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { doc, updateDoc, deleteDoc } from "firebase/firestore";
+import { doc, updateDoc, deleteDoc, Timestamp } from "firebase/firestore";
 import { db } from "@/shared/lib/firebase";
 import { useToastStore } from "@/shared/store/toast";
 import type { Task } from "@/entities/task/types";
@@ -17,7 +17,10 @@ export const useTaskActions = (
     async (taskId: string, status: Task["status"]) => {
       if (!uid) return;
       try {
-        await updateDoc(doc(db, "users", uid, "tasks", taskId), { status });
+        await updateDoc(doc(db, "users", uid, "tasks", taskId), {
+          status,
+          timeEnd: Timestamp.now(),
+        });
         showToast({ message: "Завдання завершено!", type: "success" });
       } catch (error) {
         console.error("Error updating task status:", error);

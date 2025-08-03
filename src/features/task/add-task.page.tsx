@@ -159,7 +159,7 @@ export const FormTask: React.FC = () => {
         onChange={(e) => setDeadline(e.target.value)}
         error={fieldErrors.deadline}
         color="yellow"
-        type="date"
+        type="datetime-local"
       />
       <Input
         as="textarea"
